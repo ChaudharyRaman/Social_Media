@@ -47,10 +47,11 @@ const unfollowUser = asyncHandler(async(req,res)=>{
                 followers:req.user._id,
             }
         })
+        // ----->
         // console.log(authUser,followedUser);
-        if(!authUser || !followedUser){
-            throw new Error("User is not Following Each Other");
-        }
+        // if(!authUser || !followedUser){
+        //     throw new Error("User is not Following Each Other");
+        // }
         res.send("User Unfollowed")
     }catch(error){
         throw new Error(error.message);

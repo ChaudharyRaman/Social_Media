@@ -33,19 +33,21 @@ const getAllPost = asyncHandler(async (req, res) => {
         })
             // .select('-like')
             .select('-updatedAt')
-            .sort({createdAt:-1})
+            .sort({ createdAt: -1 })
+
         if (!posts) {
             throw new Error("Post Not Found Of User")
         }
-        const data = posts.map((post)=>{
-            console.log(post);
-            return {...post,hello:post.like.length}
+        const data = posts.map((post) => {
+            // console.log(post);
+            return { ...post._doc, like: post.like.length }
         })
         console.log(data);
+
         res.send(
-            posts.map((post)=>{
+            posts.map((post) => {
                 return {
-                    like:post.like.length,
+                    like: post.like.length,
                     ...post,
                 }
             })[0]._doc
@@ -74,7 +76,7 @@ const likePost = asyncHandler(async (req, res) => {
             $addToSet: {
                 like: req.user._id,
             }
-        }, { new: true }).populate('like');
+        }, { new: true }).populate('like',"username");
         // const post = 
         res.json(post)
     } catch (error) {

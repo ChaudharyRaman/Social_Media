@@ -8,10 +8,10 @@ const router = express.Router();
 router.route('/authenticate').post(userLogin);
 router.route('/user').get(protect,getAuthUser);
 
-router.route('/follow/:id').post(protect,followUser)
-router.route('/unfollow/:id').post(protect,unfollowUser)
+router.route('/follow/:id').post(protect,followUser);
+router.route('/unfollow/:id').post(protect,unfollowUser);
 
-router.route('/posts').post(protect,uploadPost)
+router.route('/posts').post(protect,uploadPost);
 router.route('/allposts').get(protect,getAllPost);
 router.route('/posts/:id').get(getPost);
 router.route('/like/:id').post(protect,likePost);

@@ -21,4 +21,4 @@ const createUser = async (username, email, password) => {
     await mongoose.connection.close();
 }
 
-createUser('rahul', 'rahul@gmail.com', '123456789');
+createUser('varun', 'varun@gmail.com', '123456789');

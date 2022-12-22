@@ -24,7 +24,7 @@ app.use('/api',commonRoutes)
 
 app.use(errorHandler);
 
-const port = process.env.PORT ;
+const port = process.env.PORT || 5000;
 
 app.listen('5000',()=>{
     console.log(`listening to ${port}`);
