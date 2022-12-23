@@ -35,28 +35,16 @@ const getAllPost = asyncHandler(async (req, res) => {
             .select('-updatedAt')
             .sort({ createdAt: -1 })
 
-        if (!posts) {
-            throw new Error("Post Not Found Of User")
+        if (posts.length == 0) {
+            throw new Error("Post Not Found Of User OR USER HAS NOT POSTED ANY-THING")
         }
         const data = posts.map((post) => {
             // console.log(post);
             return { ...post._doc, like: post.like.length }
         })
-        console.log(data);
 
-        res.send(
-            posts.map((post) => {
-                return {
-                    like: post.like.length,
-                    ...post,
-                }
-            })[0]._doc
-        )
+        res.send(data);
 
-        // res.send({
-        //     ...posts,
-        //     likes:posts.like
-        // })
     } catch (error) {
         res.status(401);
         res.send(error.message)

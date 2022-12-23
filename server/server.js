@@ -7,6 +7,10 @@ const { errorHandler } = require('./middlewares/errorMiddleware');
 const app = express();
 // const userRoutes = require('./routes/userRoutes')
 const commonRoutes = require('./routes/commonRoutes')
+const userRoutes = require('./routes/userRoutes')
+const followRoutes = require('./routes/followRoutes')
+const postRoutes = require('./routes/postRoutes')
+
 
 app.use(express.json());
 
@@ -19,7 +23,10 @@ app.get('/',(req,res)=>{
 
 // app.use('/api/authenticate',userRoutes);
 // app.use('/api',userRoutes)
-app.use('/api',commonRoutes)
+// app.use('/api',commonRoutes)
+app.use('/api',userRoutes)
+app.use('/api',followRoutes)
+app.use('/api',postRoutes)
 
 
 app.use(errorHandler);
