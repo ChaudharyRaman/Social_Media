@@ -50,6 +50,7 @@ export default function Login() {
             isClosable: true,
         });
         setIsLoading(false);
+        navigate('/user/activity')
     }
 
     return (
