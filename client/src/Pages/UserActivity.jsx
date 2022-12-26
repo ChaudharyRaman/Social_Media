@@ -2,24 +2,25 @@ import { Box, Container } from '@chakra-ui/react'
 import React from 'react'
 import Feed from '../Components/Feed'
 import Navbar from '../Components/Navbar'
+import Sidebar from '../Components/Sidebar'
 
 export default function UserActivity() {
   return (
     <Box maxW={'100vw'} height={'100vh'} display='flex' bgColor={'lightgreen'}>
 
-      <Box flex={2} backgroundColor='#f1f2f4'>
+      <Box flex={2} w={'100%'} backgroundColor='#f1f2f4'>
         {/* SIde BAR */}
-        <Box w={'100%'} backgroundColor='#3c3e4a' h={'40%'}></Box>
+        <Sidebar />
       </Box>
       {/* ---------------------------- */}
       {/* Right Side */}
-      <Box flex={8} display='flex' flexDir={'column'} backgroundColor='#fefefe'>
+      <Box flex={8} w='100%' h={'100%'} display='flex' flexDir={'column'} backgroundColor='#fefefe'>
         <Box flex={1}>
           {/* Navbar */}
           <Navbar />
         </Box>
-        <Box display={'flex'} flex={9}>
-          <Box flex={7}>
+        <Box display={'flex'} flex={9} w='100%' h={'80%'}>
+          <Box flex={7} w='100%' h={'100%'}>
             <Feed />
           </Box>
           <Box flex={3}>

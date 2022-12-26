@@ -1,13 +1,21 @@
-import { Avatar, Box, Button, Image, Input, ListItem, Menu, MenuButton, MenuList, Text, UnorderedList } from '@chakra-ui/react'
+import { Avatar, Box, Button, Image, Input, ListItem, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text, UnorderedList } from '@chakra-ui/react'
 import React from 'react'
-import { AiOutlineHeart,AiOutlineDown } from 'react-icons/ai'
+import { AiOutlineHeart, AiOutlineDown } from 'react-icons/ai'
 import { GrNotification } from 'react-icons/gr'
 import { BiMessageRounded } from 'react-icons/bi'
 import { HiCubeTransparent } from 'react-icons/hi'
 import websiteLogo from '../Images/websiteLogo.png'
+import { useNavigate } from 'react-router-dom'
+
 
 
 export default function Navbar() {
+
+    const navigate = useNavigate();
+    const logoutHandler = ()=>{
+        localStorage.removeItem('userToken');
+        navigate('/');
+    }
     return (
         <Box display={'flex'} p={4} justifyContent='space-between' bgColor={'#e9d8fd'} >
 
@@ -40,13 +48,11 @@ export default function Navbar() {
                                 src={'https://bit.ly/code-beast'}
                             />
                         </MenuButton>
-                        {/* <MenuList>
-                            <ProfileModal user={user}>
-                                <MenuItem>My Profile</MenuItem>
-                            </ProfileModal>
+                        <MenuList>
+                            <MenuItem>Profile</MenuItem>
                             <MenuDivider />
                             <MenuItem onClick={logoutHandler} >Logout</MenuItem>
-                        </MenuList> */}
+                        </MenuList>
                     </Menu>
                 </Box>
             </Box>
