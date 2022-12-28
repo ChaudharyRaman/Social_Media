@@ -13,13 +13,11 @@ export default function Post({ post, setFetchAgain }) {
     const toast = useToast();
 
     const { user, userToken } = ContextState();
-    const [userLike, setUserLike] = useState(false);
-    const [likeCount, setLikeCount] = useState(post.like.length);
+    const [userLike, setUserLike] = useState([{}]);
 
-    const likedByUser = () => {
-        return post.like.find((l) => l === (user?._id))
+    const likedByUser = ()=>{
+        return userLike.find((like)=>like._id === user?._id);
     }
-    // console.log(post);
     const likeHandler = async () => {
         const config = {
             headers: {
@@ -29,18 +27,15 @@ export default function Post({ post, setFetchAgain }) {
         };
         try {
             if (likedByUser()) {
-                await axios.post(`/api/posts/${post._id}/unlike`, {}, config);
-                // await axios.post(`/api/unlike/${post._id}`, {}, config);
-                setUserLike(false);
-                setLikeCount(likeCount-1);
+                const {data} = await axios.post(`/api/posts/${post._id}/unlike`, {}, config);
+                setUserLike(data);
             } else {
-                await axios.post(`/api/posts/${post._id}/like`, {}, config);
-                // await axios.post(`/api/like/${post._id}`, {}, config);
-                setUserLike(true);
-                setLikeCount(likeCount+1);
+                const {data} = await axios.post(`/api/posts/${post._id}/like`, {}, config);
+                setUserLike(data);
+
             }
 
-            setFetchAgain(prev => !prev);
+            // setFetchAgain(prev => !prev);
 
         } catch (error) {
             toast({
@@ -56,7 +51,7 @@ export default function Post({ post, setFetchAgain }) {
     };
 
     useEffect(()=>{
-        setUserLike(likedByUser());
+        setUserLike(post.like);
     },[]);
     
     return (
@@ -108,10 +103,10 @@ export default function Post({ post, setFetchAgain }) {
                 <Button flex='1'
                     variant='ghost'
                     // 68d97e
-                    leftIcon={<BiLike color={userLike ? '#68d97e' : ''} size={'1.5rem'} />}
+                    leftIcon={<BiLike color={likedByUser() ? '#68d97e' : ''} size={'1.5rem'} />}
 
                     onClick={likeHandler}  >
-                    Like {(post.like !== 0) ? likeCount : ''}
+                    Like {(userLike.length !== 0) ? userLike.length : ''}
                 </Button>
                 <Button flex='1' variant='ghost' leftIcon={<BiChat size={'1.5rem'} />}>
                     Comment {(post.comments.length != 0) ? post.comments.length : ''}

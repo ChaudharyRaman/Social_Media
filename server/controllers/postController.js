@@ -55,18 +55,13 @@ const likePost = asyncHandler(async (req, res) => {
     try {
         const postId = req.params.id;
 
-        // const post = await Post.findById(Types.ObjectId(postId)).updateOne({
-        //     $addToSet: {
-        //         like: req.user._id,
-        //     }
-        // })
         const post = await Post.findByIdAndUpdate({ _id: postId }, {
             $addToSet: {
                 like: req.user._id,
             }
-        }, { new: true }).populate('like',"username");
+        }, { new: true }).populate('like'," email username");
         // const post = 
-        res.json(post)
+        res.json(post.like)
     } catch (error) {
         throw new Error(error.message)
     }
@@ -80,9 +75,9 @@ const unlikePost = asyncHandler(async (req, res) => {
             $pull: {
                 like: req.user._id,
             }
-        }, { new: true }).populate('like');
+        }, { new: true }).populate('like',"username email _id");
         // const post = await Post.find({_id:postId})
-        res.json(post)
+        res.json(post.like)
     } catch (error) {
         throw new Error(error.message);
     }
@@ -125,6 +120,7 @@ const getPost = asyncHandler(async (req, res) => {
     } catch (error) {
         throw new Error(error.message);
     }
-})
+});
+
 
 module.exports = { uploadPost, getAllPost, likePost, unlikePost, commentPost, getPost }
