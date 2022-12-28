@@ -1,19 +1,74 @@
-import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Heading, IconButton, Image, Text } from '@chakra-ui/react'
+import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Heading, IconButton, Image, Text, useToast } from '@chakra-ui/react'
+import axios from 'axios'
 import React from 'react'
-import { BiChat, BiLike, BiShare } from 'react-icons/bi'
-import {BsThreeDotsVertical} from 'react-icons/bs'
+import { useEffect } from 'react'
+import { useState } from 'react'
+import { BiChat, BiLike } from 'react-icons/bi'
+import { BsThreeDotsVertical } from 'react-icons/bs'
+import { ContextState } from '../Context/ContextProvider'
+import profilePic from '../Images/profilePic.png'
 
-export default function Post() {
+
+export default function Post({ post, setFetchAgain }) {
+    const toast = useToast();
+
+    const { user, userToken } = ContextState();
+    const [userLike, setUserLike] = useState(false);
+    const [likeCount, setLikeCount] = useState(post.like.length);
+
+    const likedByUser = () => {
+        return post.like.find((l) => l === (user?._id))
+    }
+    // console.log(post);
+    const likeHandler = async () => {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userToken}`
+            }
+        };
+        try {
+            if (likedByUser()) {
+                await axios.post(`/api/posts/${post._id}/unlike`, {}, config);
+                // await axios.post(`/api/unlike/${post._id}`, {}, config);
+                setUserLike(false);
+                setLikeCount(likeCount-1);
+            } else {
+                await axios.post(`/api/posts/${post._id}/like`, {}, config);
+                // await axios.post(`/api/like/${post._id}`, {}, config);
+                setUserLike(true);
+                setLikeCount(likeCount+1);
+            }
+
+            setFetchAgain(prev => !prev);
+
+        } catch (error) {
+            toast({
+                title: `Error Occured`,
+                description: `${error.message}`,
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+                position: 'bottom-right'
+            });
+            
+        }
+    };
+
+    useEffect(()=>{
+        setUserLike(likedByUser());
+    },[]);
+    
     return (
-        <Card maxW='md'>
+        <Card maxW='md' width={'md'}>
             <CardHeader>
                 <Flex spacing='4'>
                     <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                        <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
+                        <Avatar name={post.username} src={(post.user.profilePic ? post.user.profilePic : profilePic)} />
 
                         <Box>
-                            <Heading size='sm'>Segun Adebayo</Heading>
-                            <Text>Creator, Chakra UI</Text>
+                            <Heading size='sm'>{post.user.username}</Heading>
+                            <Text>Uploaded - {post.user.updatedAt.slice(0, 10)}</Text>
                         </Box>
                     </Flex>
                     <IconButton
@@ -25,17 +80,21 @@ export default function Post() {
                 </Flex>
             </CardHeader>
             <CardBody>
+                <Heading size='md' marginBottom={'2'} >{post.title}</Heading>
                 <Text>
-                    With Chakra UI, I wanted to sync the speed of development with the speed
-                    of design. I wanted the developer to be just as excited as the designer to
-                    create a screen.
+                    {post.description}
                 </Text>
             </CardBody>
-            <Image
-                objectFit='cover'
-                src='https://images.unsplash.com/photo-1531403009284-440f080d1e12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
-                alt='Chakra UI'
-            />
+
+            {
+                (post.image) ?
+                    <Image
+                        objectFit='cover'
+                        src={post.image}
+                        alt='Chakra UI'
+                    />
+                    : ''
+            }
 
             <CardFooter
                 justify='space-between'
@@ -46,14 +105,16 @@ export default function Post() {
                     },
                 }}
             >
-                <Button flex='1' variant='ghost' leftIcon={<BiLike />}>
-                    Like
+                <Button flex='1'
+                    variant='ghost'
+                    // 68d97e
+                    leftIcon={<BiLike color={userLike ? '#68d97e' : ''} size={'1.5rem'} />}
+
+                    onClick={likeHandler}  >
+                    Like {(post.like !== 0) ? likeCount : ''}
                 </Button>
-                <Button flex='1' variant='ghost' leftIcon={<BiChat />}>
-                    Comment
-                </Button>
-                <Button flex='1' variant='ghost' leftIcon={<BiShare />}>
-                    Share
+                <Button flex='1' variant='ghost' leftIcon={<BiChat size={'1.5rem'} />}>
+                    Comment {(post.comments.length != 0) ? post.comments.length : ''}
                 </Button>
             </CardFooter>
         </Card>

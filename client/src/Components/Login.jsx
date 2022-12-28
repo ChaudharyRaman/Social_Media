@@ -40,15 +40,15 @@ export default function Login() {
         setPassword('');
 
         localStorage.setItem('userToken', data.token);
-        toast({
-            title: 'Success',
-            description: "User Successfully Logged In!!",
-            status: 'success',
-            position: 'bottom-right',
-            variant: 'subtle',
-            duration: 3000,
-            isClosable: true,
-        });
+        // toast({
+        //     title: 'Success',
+        //     description: "User Successfully Logged In!!",
+        //     status: 'success',
+        //     position: 'bottom-right',
+        //     variant: 'subtle',
+        //     duration: 3000,
+        //     isClosable: true,
+        // });
         setIsLoading(false);
         navigate('/user/activity')
     }

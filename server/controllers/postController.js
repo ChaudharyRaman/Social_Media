@@ -29,21 +29,21 @@ const getAllPost = asyncHandler(async (req, res) => {
     try {
         const posts = await Post.find({ user: req.user._id }).populate({
             path: 'user',
-            select: 'username'
+            select: 'username updatedAt'
         })
             // .select('-like')
             .select('-updatedAt')
             .sort({ createdAt: -1 })
 
-        if (posts.length == 0) {
-            throw new Error("Post Not Found Of User OR USER HAS NOT POSTED ANY-THING")
-        }
-        const data = posts.map((post) => {
-            // console.log(post);
-            return { ...post._doc, like: post.like.length }
-        })
+        // if (posts.length == 0) {
+        //     throw new Error("Post Not Found Of User OR USER HAS NOT POSTED ANY-THING")
+        // }
+        // const data = posts.map((post) => {
+        //     // console.log(post);
+        //     return { ...post._doc, like: post.like.length }
+        // })
 
-        res.send(data);
+        res.send(posts);
 
     } catch (error) {
         res.status(401);

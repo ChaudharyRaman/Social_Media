@@ -9,6 +9,8 @@ export default function Usercard() {
 
     const { user } = ContextState();
 
+    // console.log(user);
+
     return (
         <Box
             display={'flex'}
@@ -29,13 +31,13 @@ export default function Usercard() {
             >
                 <Box flex={1} display='flex' justifyContent={'center'} alignItems='center' flexDir={'column'}>
                     <Text fontWeight={'bold'}>
-                        {user ? user.followers : ''}
+                        {user ? user.followers.length : ''}
                     </Text>
                     <Text fontWeight={'500'} color='gray' >Follower</Text>
                 </Box>
                 <Box flex={1} display='flex' justifyContent={'center'} alignItems='center' flexDir={'column'}>
                     <Text fontWeight={'bold'}>
-                        {user ? user.following : ''}
+                        {user ? user.following.length : ''}
                     </Text>
                     <Text fontWeight={'500'} color='gray' >Following</Text>
                 </Box>

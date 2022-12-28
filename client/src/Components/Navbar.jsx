@@ -17,7 +17,7 @@ export default function Navbar() {
         navigate('/');
     }
     return (
-        <Box display={'flex'} p={4} justifyContent='space-between' bgColor={'#e9d8fd'} >
+        <Box flex={1} display={'flex'} pl={6} justifyContent='space-between' bgColor={'#e9d8fd'} >
 
             <Box display='flex' justifyContent={'center'} alignItems='center' gap={'1.5rem'}>
                 <Box>

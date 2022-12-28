@@ -1,0 +1,9 @@
+page 1 - HomePage include login and signup
+page 2 - /useractivity render useracticity with feed component
+            also contain other components in routes..
+            /user/activity/feed
+            /user/activity/photos
+            /user/activity/people
+            /user/activity/group
+            /user/activity/watch
+            /user/activity/blog

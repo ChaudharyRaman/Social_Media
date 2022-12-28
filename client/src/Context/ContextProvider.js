@@ -10,9 +10,9 @@ const Context = createContext();
 const ContextProvider = ({ children }) => {
     const navigate = useNavigate();
     const [user, setUser] = useState();
+    const userToken = localStorage.getItem('userToken');
 
     useEffect(() => {
-        const userToken = localStorage.getItem('userToken');
 
         if(!userToken){
             navigate('/');
@@ -34,7 +34,7 @@ const ContextProvider = ({ children }) => {
 
     return (
         <Context.Provider
-            value={{ user, setUser }}
+            value={{ user, setUser,userToken }}
         >
             {children}
         </Context.Provider>
