@@ -17,14 +17,18 @@ const followUser = asyncHandler(async (req, res) => {
                 following: followUserId,
             }
         }, { new: true });
-        console.log(followUserId, req.user._id);
+        // console.log(followUserId, req.user._id);
 
         const followUser = await Follow.findOneAndUpdate({user:followUserId},{
             $addToSet:{
                 followers:req.user._id,
             }
-        },{new:true});
-        res.send("User Successfully Followed");
+        },{new:true})
+        .populate("followers","username email")
+        .populate("following","username email")
+        
+        console.log(followingUser);
+        res.json(followUser)
     } catch (error) {
         throw new Error(error.message)
     }
@@ -46,13 +50,15 @@ const unfollowUser = asyncHandler(async(req,res)=>{
             $pull:{
                 followers:req.user._id,
             }
-        })
+        },{new:true}).populate("followers","username email")
+        .populate("following","username email")
         // ----->
         // console.log(authUser,followedUser);
         // if(!authUser || !followedUser){
         //     throw new Error("User is not Following Each Other");
         // }
-        res.send("User Unfollowed")
+        res.json(followedUser);
+
     }catch(error){
         throw new Error(error.message);
     }

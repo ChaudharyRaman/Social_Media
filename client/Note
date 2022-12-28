@@ -7,3 +7,4 @@ page 2 - /useractivity render useracticity with feed component
             /user/activity/group
             /user/activity/watch
             /user/activity/blog
+check whether it can follow itself or not...

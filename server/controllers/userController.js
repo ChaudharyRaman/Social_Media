@@ -71,4 +71,36 @@ const getAuthUser = asyncHandler(async (req, res) => {
 
 });
 
-module.exports = { userLogin, getAuthUser, registerUser }
+const getAllUsers = asyncHandler(async(req,res)=>{
+    const authUser = req.user;
+    try {
+        const users = await Follow.find({})
+                        .populate({
+                            path:'user',
+                            select:'username email'
+                        })
+                        .populate({
+                            path:'followers',
+                            select:'username email'
+                        })
+                        .populate({
+                            path:'following',
+                            select:'username email'
+                        })
+                        .sort({'createdAt':-1})
+        
+        const newUsers = users.filter((user)=> {
+            return user.user._id.toString() !== authUser._id.toString()
+        });
+        console.log(newUsers);
+
+        res.json(newUsers);
+        
+    } catch (error) {
+        res.status(401)
+        throw new Error("Unable to Fetch posts DUE TO - " + error.message)
+    }
+
+})
+
+module.exports = { userLogin, getAuthUser, registerUser, getAllUsers }

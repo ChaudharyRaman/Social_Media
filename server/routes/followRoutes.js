@@ -3,7 +3,7 @@ const { followUser, unfollowUser } = require('../controllers/followController');
 const protect = require('../middlewares/authMiddleware');
 const router = express.Router();
 
-router.route('/follow/:id').post(protect,followUser);
-router.route('/unfollow/:id').post(protect,unfollowUser);
+router.route('/users/:id/follow').post(protect,followUser);
+router.route('/users/:id/unfollow').post(protect,unfollowUser);
 
 module.exports = router;
