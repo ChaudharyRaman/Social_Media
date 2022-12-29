@@ -26,7 +26,10 @@ const postSchema = mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'User',
         // unique:true
-    }]
+    }],
+    postImages:[{
+        type:String,
+    }],
 
 }, { timestamps: true })
 

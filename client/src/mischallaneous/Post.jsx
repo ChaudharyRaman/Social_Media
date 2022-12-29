@@ -15,8 +15,8 @@ export default function Post({ post, setFetchAgain }) {
     const { user, userToken } = ContextState();
     const [userLike, setUserLike] = useState([{}]);
 
-    const likedByUser = ()=>{
-        return userLike.find((like)=>like._id === user?._id);
+    const likedByUser = () => {
+        return userLike.find((like) => like._id === user?._id);
     }
     const likeHandler = async () => {
         const config = {
@@ -27,10 +27,10 @@ export default function Post({ post, setFetchAgain }) {
         };
         try {
             if (likedByUser()) {
-                const {data} = await axios.post(`/api/posts/${post._id}/unlike`, {}, config);
+                const { data } = await axios.post(`/api/posts/${post._id}/unlike`, {}, config);
                 setUserLike(data);
             } else {
-                const {data} = await axios.post(`/api/posts/${post._id}/like`, {}, config);
+                const { data } = await axios.post(`/api/posts/${post._id}/like`, {}, config);
                 setUserLike(data);
             }
 
@@ -45,14 +45,14 @@ export default function Post({ post, setFetchAgain }) {
                 isClosable: true,
                 position: 'bottom-right'
             });
-            
+
         }
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         setUserLike(post.like);
-    },[]);
-    
+    }, []);
+
     return (
         <Card maxW='md' width={'md'}>
             <CardHeader>
@@ -79,14 +79,18 @@ export default function Post({ post, setFetchAgain }) {
                     {post.description}
                 </Text>
             </CardBody>
-
+            
             {
-                (post.image) ?
-                    <Image
-                        objectFit='cover'
-                        src={post.image}
-                        alt='Chakra UI'
-                    />
+                (post.postImages.length !== 0) ?
+                    post.postImages.map((image,index) => (
+                        <Image
+                            key={index}
+                            objectFit='cover'
+                            src={image}
+                            alt='Chakra UI'
+                        />
+                    ))
+
                     : ''
             }
 

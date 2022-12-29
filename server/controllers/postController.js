@@ -6,12 +6,15 @@ const uploadPost = asyncHandler(async (req, res) => {
 
     try {
 
+
         var post = await Post.create({
             user: req.user._id,
+            postImages: req.body.postImageUrls,
             ...req.body,
         })
 
-        post = await post.populate("user","username updatedAt")
+        console.log(post);
+        // post = await post.populate("user","username updatedAt")
         res.send(post)
 
     } catch (error) {

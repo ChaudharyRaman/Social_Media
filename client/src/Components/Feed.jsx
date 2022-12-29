@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Input, Stack, Text, Textarea, useToast } from '@chakra-ui/react'
+import { Avatar, Box, Button, FormControl, FormLabel, Image, Input, Stack, Text, Textarea, useToast } from '@chakra-ui/react'
 import axios from 'axios';
 import React from 'react'
 import { useEffect } from 'react';
@@ -6,20 +6,73 @@ import { useState } from 'react'
 import { ContextState } from '../Context/ContextProvider';
 import Post from '../mischallaneous/Post'
 import profilePic from '../Images/profilePic.png'
+import { AiOutlineClose, AiOutlinePaperClip } from 'react-icons/ai'
 
 
 export default function Feed() {
   const toast = useToast();
 
-  const [title,setTitle] = useState('');
-  const [description,setDescription] = useState('');
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [isWritingPost, setIsWritingPost] = useState(false);
 
   const [posts, setPosts] = useState();
   const [postLoading, setPostLoading] = useState(false);
   const [fetchAgain, setFetchAgain] = useState(false);
 
+  const [imageLoading, setImageLoading] = useState(false);
+  const [postImageUrls, setPostImageUrls] = useState([]);
+
   const { userToken, user } = ContextState();
+
+  const removeImage = (idx)=>{
+    const newUrls = postImageUrls.filter((url, index)=> index !== idx);
+    setPostImageUrls(newUrls);
+  }
+
+  const postImage = (pic) => {
+
+
+    setImageLoading(true);
+    if (pic === undefined) {
+      toast({
+        title: 'Please Select an Image',
+        status: 'warning',
+        duration: 3000,
+        isClosable: true,
+        position: 'bottom'
+      });
+      return;
+    }
+
+    if (pic.type === 'image/jpeg' || pic.type === 'image/png' || pic.type === 'image/jpg') {
+      const data = new FormData();
+      data.append('file', pic);
+      data.append('upload_preset', 'social-media');
+      data.append('cloud_name', 'dczilkqlt');
+      fetch('https://api.cloudinary.com/v1_1/dczilkqlt/image/upload', {
+        method: 'post',
+        body: data
+      })
+        .then(res => res.json())
+        .then(data => {
+          setPostImageUrls([...postImageUrls, data.url.toString()])
+          // console.log(data.url.toString());
+          setImageLoading(false);
+        })
+        .catch(err => {
+          toast({
+            title: `Error Occured`,
+            description: 'Failed To Upload Image',
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+            position: 'bottom-right'
+          });
+          setImageLoading(false);
+        })
+    }
+  }
 
   const fetchPosts = async () => {
     try {
@@ -47,6 +100,18 @@ export default function Feed() {
   }
 
   const submitPost = async () => {
+
+    if (title == '' && description == '' && postImageUrls.length == 0) {
+      toast({
+        title: 'Please Enter Something',
+        status: 'warning',
+        duration: 3000,
+        isClosable: true,
+        position: 'bottom'
+      });
+      return;
+    }
+
     try {
       const config = {
         headers: {
@@ -54,7 +119,7 @@ export default function Feed() {
           Authorization: `Bearer ${userToken}`
         }
       }
-      const { data } = await axios.post('/api/posts', { title, description }, config);
+      const { data } = await axios.post('/api/posts', { title, description, postImageUrls }, config);
       toast({
         title: `Post Created`,
         description: 'Post Created Successfully',
@@ -67,6 +132,7 @@ export default function Feed() {
       setIsWritingPost(false);
       setTitle('');
       setDescription('');
+      setPostImageUrls([]);
 
     } catch (error) {
 
@@ -121,8 +187,41 @@ export default function Feed() {
                 onChange={(e) => { setTitle(e.target.value) }}
                 variant={'flushed'}
               />
-              <Box>
-                <Input type='file' variant={'flushed'} />
+              <Box display={'flex'} flexDir='column'>
+                {/* file upload panel */}
+                <FormControl>
+                  <FormLabel display={'flex'} alignItems='center' color={'#7818cc'} >
+                    <Box bgColor={'#dbdbea'} borderRadius='3xl' cursor={'pointer'}>
+                    <AiOutlinePaperClip size={'2rem'} color='#7818cc' />
+                    </Box>
+                    <Box cursor={'pointer'}>
+                      <Text ml={'1rem'}>Add Image</Text>
+                    </Box>
+                  </FormLabel>
+                  <Input type='file'
+                    variant={'flushed'}
+                    accept={'image/*'}
+                    onChange={(e) => { postImage(e.target.files[0]) }}
+                    hidden
+                  />
+                </FormControl>
+                {/* image preview */}
+                <Box display={'flex'} flexWrap='wrap' gap={'1rem'} mt={'1rem'}>
+                  {
+                    postImageUrls.map((url, index) => (
+                      <Box key={index} position='relative'>
+                        <Image src={url} w={'100%'} h={'auto'} borderRadius='2xl' />
+                        <Box position='absolute' top='0' right='0' cursor='pointer'
+                          onClick={() => { removeImage(index) }}
+                        >
+                          <AiOutlineClose size={'2rem'} color='white' />
+                        </Box>
+                        </Box>
+                    ))
+                  }
+                  </Box>
+                          
+
               </Box>
               <Box display={'flex'} justifyContent='end' gap={'1.5rem'}>
                 <Button colorScheme='purple' variant='solid'
@@ -130,8 +229,10 @@ export default function Feed() {
                 >
                   Cancel
                 </Button>
-                <Button colorScheme='purple' variant='solid'
-                  onClick={() => { submitPost()}}
+                <Button colorScheme='purple'
+                  variant='solid'
+                  isLoading={imageLoading}
+                  onClick={() => { submitPost() }}
                 >
                   Post
                 </Button>
