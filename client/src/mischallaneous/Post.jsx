@@ -32,7 +32,6 @@ export default function Post({ post, setFetchAgain }) {
             } else {
                 const {data} = await axios.post(`/api/posts/${post._id}/like`, {}, config);
                 setUserLike(data);
-
             }
 
             // setFetchAgain(prev => !prev);

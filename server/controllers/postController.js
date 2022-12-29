@@ -6,18 +6,14 @@ const uploadPost = asyncHandler(async (req, res) => {
 
     try {
 
-        const data = await Post.create({
+        var post = await Post.create({
             user: req.user._id,
             ...req.body,
-        });
-        // console.log({...req.body,user:req.user._id});
-        console.log(data);
-        res.json({
-            id: data._id,
-            Title: data.title,
-            Description: data.description,
-            CreatedAt: data.createdAt,
         })
+
+        post = await post.populate("user","username updatedAt")
+        res.send(post)
+
     } catch (error) {
         res.status(401);
         // throw new Error("Unable to create Post")
@@ -35,14 +31,6 @@ const getAllPost = asyncHandler(async (req, res) => {
             .select('-updatedAt')
             .sort({ createdAt: -1 })
 
-        // if (posts.length == 0) {
-        //     throw new Error("Post Not Found Of User OR USER HAS NOT POSTED ANY-THING")
-        // }
-        // const data = posts.map((post) => {
-        //     // console.log(post);
-        //     return { ...post._doc, like: post.like.length }
-        // })
-
         res.send(posts);
 
     } catch (error) {
@@ -59,7 +47,7 @@ const likePost = asyncHandler(async (req, res) => {
             $addToSet: {
                 like: req.user._id,
             }
-        }, { new: true }).populate('like'," email username");
+        }, { new: true }).populate('like', " email username");
         // const post = 
         res.json(post.like)
     } catch (error) {
@@ -75,7 +63,7 @@ const unlikePost = asyncHandler(async (req, res) => {
             $pull: {
                 like: req.user._id,
             }
-        }, { new: true }).populate('like',"username email _id");
+        }, { new: true }).populate('like', "username email _id");
         // const post = await Post.find({_id:postId})
         res.json(post.like)
     } catch (error) {
