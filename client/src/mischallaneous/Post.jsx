@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Heading, IconButton, Image, Text, useToast } from '@chakra-ui/react'
+import { Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, Heading, IconButton, Image, Slider, Text, useToast } from '@chakra-ui/react'
 import axios from 'axios'
 import React from 'react'
 import { useEffect } from 'react'
@@ -8,8 +8,15 @@ import { BsThreeDotsVertical } from 'react-icons/bs'
 import { ContextState } from '../Context/ContextProvider'
 import profilePic from '../Images/profilePic.png'
 
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from "swiper";
+import 'swiper/css'
+import "swiper/css/pagination";
+
+
 
 export default function Post({ post, setFetchAgain }) {
+    console.log(post);
     const toast = useToast();
 
     const { user, userToken } = ContextState();
@@ -62,7 +69,7 @@ export default function Post({ post, setFetchAgain }) {
 
                         <Box>
                             <Heading size='sm'>{post.user.username}</Heading>
-                            <Text>Uploaded - {post.user.updatedAt.slice(0, 10)}</Text>
+                            <Text>Uploaded - {post.createdAt.slice(0, 10)}</Text>
                         </Box>
                     </Flex>
                     <IconButton
@@ -79,20 +86,29 @@ export default function Post({ post, setFetchAgain }) {
                     {post.description}
                 </Text>
             </CardBody>
-            
-            {
-                (post.postImages.length !== 0) ?
-                    post.postImages.map((image,index) => (
-                        <Image
-                            key={index}
-                            objectFit='cover'
-                            src={image}
-                            alt='Chakra UI'
-                        />
-                    ))
+            <Box w={'100%'}>
+                <Swiper pagination={true} modules={[Pagination]} className="mySwiper" >
+                    {
+                        (post.postImages.length !== 0) ?
+                            post.postImages.map((image, index) => (
+                                <SwiperSlide
+                                    key={index}
+                                    style={{display:'flex',justifyContent:'center',alignItems:'center'}}
+                                >
+                                        <Image
+                                            objectFit='cover'
+                                            src={image}
+                                            alt='Chakra UI'
+                                            w={'100%'}
+                                            alignSelf='center'
+                                        />
+                                </SwiperSlide>
+                            ))
 
-                    : ''
-            }
+                            : ''
+                    }
+                </Swiper>
+            </Box>
 
             <CardFooter
                 justify='space-between'

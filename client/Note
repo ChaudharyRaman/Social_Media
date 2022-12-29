@@ -9,3 +9,4 @@ page 2 - /useractivity render useracticity with feed component
             /user/activity/blog
 check whether it can follow itself or not...
 correction required in empty post 
+signup issue with invalid userid

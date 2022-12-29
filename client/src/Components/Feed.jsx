@@ -25,8 +25,15 @@ export default function Feed() {
 
   const { userToken, user } = ContextState();
 
-  const removeImage = (idx)=>{
-    const newUrls = postImageUrls.filter((url, index)=> index !== idx);
+  const closeHandler = ()=>{
+    setIsWritingPost(false);
+    setTitle('');
+    setDescription('');
+    setPostImageUrls([]);
+  }
+
+  const removeImage = (idx) => {
+    const newUrls = postImageUrls.filter((url, index) => index !== idx);
     setPostImageUrls(newUrls);
   }
 
@@ -192,7 +199,7 @@ export default function Feed() {
                 <FormControl>
                   <FormLabel display={'flex'} alignItems='center' color={'#7818cc'} >
                     <Box bgColor={'#dbdbea'} borderRadius='3xl' cursor={'pointer'}>
-                    <AiOutlinePaperClip size={'2rem'} color='#7818cc' />
+                      <AiOutlinePaperClip size={'2rem'} color='#7818cc' />
                     </Box>
                     <Box cursor={'pointer'}>
                       <Text ml={'1rem'}>Add Image</Text>
@@ -210,22 +217,24 @@ export default function Feed() {
                   {
                     postImageUrls.map((url, index) => (
                       <Box key={index} position='relative'>
-                        <Image src={url} w={'100%'} h={'auto'} borderRadius='2xl' />
-                        <Box position='absolute' top='0' right='0' cursor='pointer'
+                        <Image src={url} w={'100%'} h={'7rem'} borderRadius='2xl' />
+                        <Box position='absolute' top='-1' right='-1' cursor='pointer'
                           onClick={() => { removeImage(index) }}
+                          borderRadius='full'
+                          bgColor='red'
                         >
-                          <AiOutlineClose size={'2rem'} color='white' />
+                          <AiOutlineClose size={'1.5rem'} color='white'  />
                         </Box>
-                        </Box>
+                      </Box>
                     ))
                   }
-                  </Box>
-                          
+                </Box>
+
 
               </Box>
               <Box display={'flex'} justifyContent='end' gap={'1.5rem'}>
                 <Button colorScheme='purple' variant='solid'
-                  onClick={() => { setIsWritingPost(false) }}
+                  onClick={() => { closeHandler()}}
                 >
                   Cancel
                 </Button>
