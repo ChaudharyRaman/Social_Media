@@ -6,10 +6,14 @@ import { BiMessageRounded } from 'react-icons/bi'
 import { HiCubeTransparent } from 'react-icons/hi'
 import websiteLogo from '../Images/websiteLogo.png'
 import { useNavigate } from 'react-router-dom'
+import { ContextState } from '../Context/ContextProvider'
+import profilePic from '../Images/profilePic.png'
 
 
 
 export default function Navbar() {
+
+    const {user} = ContextState();
 
     const navigate = useNavigate();
     const logoutHandler = ()=>{
@@ -17,7 +21,7 @@ export default function Navbar() {
         navigate('/');
     }
     return (
-        <Box flex={1} display={'flex'} pl={6} justifyContent='space-between' bgColor={'#e9d8fd'} >
+        <Box flex={1} display={'flex'} pl={6} pr={6} justifyContent='space-between' bgColor={'#713ab0'} >
 
             <Box display='flex' justifyContent={'center'} alignItems='center' gap={'1.5rem'}>
                 <Box>
@@ -45,7 +49,7 @@ export default function Navbar() {
                                 size={'sm'}
                                 cursor={'pointer'}
                                 name={'Raman'}
-                                src={'https://bit.ly/code-beast'}
+                                src={user?.profilePic ? user.profilePic : profilePic}
                             />
                         </MenuButton>
                         <MenuList>

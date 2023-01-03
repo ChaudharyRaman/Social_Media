@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom'
 export default function LowerSideBar() {
 
     return (
-        <Box display={'flex'} flexDir='column' justifyContent='center' alignContent={'center'} marginTop='50%' gap={'2rem'}>
+        <Box display={'flex'} flexDir='column' justifyContent='center' alignContent={'center'} marginTop='55%' gap={'2rem'}>
 
             <Box display={'flex'} justifyContent='space-evenly' alignItems={'center'} >
                 <Link to={'/user/activity'}>

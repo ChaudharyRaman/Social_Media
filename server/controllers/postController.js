@@ -13,7 +13,7 @@ const uploadPost = asyncHandler(async (req, res) => {
             ...req.body,
         })
 
-        console.log(post);
+        // console.log(post);
         // post = await post.populate("user","username updatedAt")
         res.send(post)
 

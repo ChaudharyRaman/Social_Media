@@ -19,15 +19,19 @@ export default function Usercard() {
             bgColor={'white'}
             marginTop='10'
             width={'70%'}
-            height={'70%'}
-            p='5'
+            // height={'70%'}
+            p='3'
             borderRadius={'xl'}
+            paddingBottom={'4'}
+            gap='3'
         >
-            <Avatar size={'lg'} name={user ? user.userName : 'Profile'} src={ profilePic } />
+            <Avatar size={'lg'} name={user ? user.userName : 'Profile'} src={profilePic} />
 
-            <Text fontWeight={'bold'} fontSize='lg' marginTop={'0.7rem'} > {user ? user.userName : ''}</Text>
+            <Text fontWeight={'bold'} fontSize='lg' marginTop={'0.7rem'} >
+                {user ? user.userName : ''}
+            </Text>
             <Box display={'flex'} gap={'1rem'}
-                margin='2rem 0'
+                // margin='2rem 0'
             >
                 <Box flex={1} display='flex' justifyContent={'center'} alignItems='center' flexDir={'column'}>
                     <Text fontWeight={'bold'}>

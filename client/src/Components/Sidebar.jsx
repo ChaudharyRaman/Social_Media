@@ -9,7 +9,7 @@ export default function Sidebar() {
     return (
         <Box flex={2} w={'100%'} backgroundColor='#f1f2f4'>
 
-            <Box w={'100%'} h='100%'>
+            <Box w={'100%'} h='100%' overflowY={'scroll'}>
                 {/* Brown part */}
                 <Box w={'100%'} display='flex' flexDirection={'column'} alignItems={'center'} backgroundColor='#3c3e4a' h={'40%'}
                     overflow='visible'

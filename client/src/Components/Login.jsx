@@ -26,22 +26,39 @@ export default function Login() {
             setIsLoading(false);
             return;
         }
-        const config = {
-            headers: {
-                "Content-type": "application/json",
-            },
+
+        try {
+
+            const config = {
+                headers: {
+                    "Content-type": "application/json",
+                },
+            }
+            const { data } = await axios.post('/api/authenticate', {
+                email,
+                password
+            }, config);
+
+            setEmail('');
+            setPassword('');
+
+            localStorage.setItem('userToken', data.token);
+            setIsLoading(false);
+            navigate('/user/activity')
+        } catch (error) {
+            toast({
+                title: 'Error',
+                description: "Enter valid Email OR Password",
+                status: 'error',
+                position: 'bottom-right',
+                variant: 'subtle',
+                duration: 3000,
+                isClosable: true,
+            });
+            setEmail("")
+            setPassword("")
+            setIsLoading(false);
         }
-        const { data } = await axios.post('/api/authenticate', {
-            email,
-            password
-        }, config);
-
-        setEmail('');
-        setPassword('');
-
-        localStorage.setItem('userToken', data.token);
-        setIsLoading(false);
-        navigate('/user/activity')
     }
 
     return (
