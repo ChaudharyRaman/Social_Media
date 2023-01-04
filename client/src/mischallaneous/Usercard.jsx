@@ -27,7 +27,7 @@ export default function Usercard() {
         >
             <Avatar size={'lg'} name={user ? user.userName : 'Profile'} src={profilePic} />
 
-            <Text fontWeight={'bold'} fontSize='lg' marginTop={'0.7rem'} >
+            <Text fontWeight={'500'} fontSize='lg' marginTop={'0.7rem'} >
                 {user ? user.userName : ''}
             </Text>
             <Box display={'flex'} gap={'1rem'}

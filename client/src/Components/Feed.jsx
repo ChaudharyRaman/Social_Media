@@ -90,7 +90,7 @@ export default function Feed() {
           Authorization: `Bearer ${userToken}`
         }
       }
-      const { data } = await axios.get('/api/allposts', config);
+      const { data } = await axios.get('/api/getFollowingsPost', config);
       setPosts(data);
       setPostLoading(false)
     } catch (error) {

@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const { Types } = require('mongoose');
 const Post = require('../models/postModel');
+const Follow = require('../models/followModel');
 
 const uploadPost = asyncHandler(async (req, res) => {
 
@@ -113,5 +114,15 @@ const getPost = asyncHandler(async (req, res) => {
     }
 });
 
+const getFollowingsPost = asyncHandler(async(req,res)=>{
+    try {
+        const followingUsers = await Follow.findOne({user:req.user._id}).select('following') //---return aray of follwoing
 
-module.exports = { uploadPost, getAllPost, likePost, unlikePost, commentPost, getPost }
+        const followingUsersPost = await Post.find({ $or: [{user:{$in:followingUsers.following}},{user:req.user._id}]}).populate('user','username').sort({createdAt:-1})
+        res.json(followingUsersPost)
+    } catch (error) {
+        throw new Error(error.message)
+    }
+})
+
+module.exports = { uploadPost, getAllPost, likePost, unlikePost, commentPost, getPost , getFollowingsPost }
