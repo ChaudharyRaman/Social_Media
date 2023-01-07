@@ -15,7 +15,7 @@ const Photos = () => {
   const [postImages, setPostImages] = useState([]);
   const [imgLoading, setImgLoading] = useState(false);
 
-  console.log(postImages);
+  // console.log(postImages);
 
   const fetchPhotos = async () => {
     try {
@@ -26,8 +26,8 @@ const Photos = () => {
           Authorization: `Bearer ${userToken}`
         }
       }
-      const { data } = await axios.get('/api/allposts', config);
-      console.log(data);
+      const { data } = await axios.get(`/api/allposts/${user?._id}`, config);
+      // console.log(data);
       data.forEach((d) => {
         if (d.postImages.length !== 0) {
           setPostImages(prevImg =>([

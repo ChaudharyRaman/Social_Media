@@ -16,7 +16,7 @@ import "swiper/css/pagination";
 
 
 export default function Post({ post, setFetchAgain }) {
-    console.log(post);
+    // console.log(post);
     const toast = useToast();
 
     const { user, userToken } = ContextState();

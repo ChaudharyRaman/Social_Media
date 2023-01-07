@@ -21,7 +21,7 @@ export default function Navbar() {
         navigate('/');
     }
     return (
-        <Box flex={1} display={'flex'} pl={6} pr={6} justifyContent='space-between' bgColor={'#713ab0'} >
+        <Box flex={1} w='100%' h={'100%'} display={'flex'} pl={6} pr={6} justifyContent='space-between' bgColor={'#b99cdb'} >
 
             <Box display='flex' justifyContent={'center'} alignItems='center' gap={'1.5rem'}>
                 <Box>
@@ -38,7 +38,7 @@ export default function Navbar() {
             </Box>
             <Box display={'flex'} justifyContent={'center'} alignItems='center' gap={'1.5rem'} >
                 <Box>
-                    <Input placeholder='Search' colorScheme={'purple'} />
+                    <Input placeholder='Search' colorScheme={'black'} />
                 </Box>
                 <Box>
                     <Menu>
@@ -53,7 +53,7 @@ export default function Navbar() {
                             />
                         </MenuButton>
                         <MenuList>
-                            <MenuItem>Profile</MenuItem>
+                            <MenuItem onClick={()=>{navigate(`/user/${user._id}/profile`)}} >Profile</MenuItem>
                             <MenuDivider />
                             <MenuItem onClick={logoutHandler} >Logout</MenuItem>
                         </MenuList>

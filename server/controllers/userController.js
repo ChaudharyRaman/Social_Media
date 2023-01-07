@@ -92,7 +92,7 @@ const getAllUsers = asyncHandler(async(req,res)=>{
         const newUsers = users.filter((user)=> {
             return user.user._id.toString() !== authUser._id.toString()
         });
-        console.log(newUsers);
+        // console.log(newUsers);
 
         res.json(newUsers);
         
@@ -103,4 +103,22 @@ const getAllUsers = asyncHandler(async(req,res)=>{
 
 })
 
-module.exports = { userLogin, getAuthUser, registerUser, getAllUsers }
+const getUser = asyncHandler(async(req,res)=>{
+    const {id} = req.params;
+    
+    try {
+        const user = await User.findOne({_id:id});
+        if(user){
+            res.json(user);
+        }else{
+            res.status(404);
+            throw new Error("User Not Found");
+        }
+    } catch (error) {
+        res.status(401)
+        throw new Error("Unable to Fetch posts DUE TO - " + error.message)
+    }
+    
+})
+
+module.exports = { userLogin, getAuthUser, registerUser, getAllUsers ,getUser }

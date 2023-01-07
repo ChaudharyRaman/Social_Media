@@ -4,7 +4,7 @@ const protect = require('../middlewares/authMiddleware');
 const router = express.Router();
 
 router.route('/posts').post(protect,uploadPost);
-router.route('/allposts').get(protect,getAllPost);
+router.route('/allposts/:id').get(protect,getAllPost);
 router.route('/posts/:id').get(getPost);
 router.route('/posts/:id/like').post(protect,likePost);
 router.route('/posts/:id/unlike').post(protect,unlikePost)

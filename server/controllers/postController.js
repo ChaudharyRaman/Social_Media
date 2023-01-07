@@ -26,8 +26,11 @@ const uploadPost = asyncHandler(async (req, res) => {
 
 });
 const getAllPost = asyncHandler(async (req, res) => {
+
+    const {id} = req.params;
+
     try {
-        const posts = await Post.find({ user: req.user._id }).populate({
+        const posts = await Post.find({ user: id }).populate({
             path: 'user',
             select: 'username updatedAt'
         })
