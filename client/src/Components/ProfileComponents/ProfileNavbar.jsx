@@ -6,7 +6,8 @@ import { GoFileMedia } from 'react-icons/go'
 import { MdDynamicFeed } from 'react-icons/md'
 import { TbFriends } from 'react-icons/tb'
 
-const ProfileNavbar = () => {
+const ProfileNavbar = ({user,userLoading}) => {
+
     return (
         <Box
             w={'100%'}
@@ -18,7 +19,7 @@ const ProfileNavbar = () => {
             paddingBottom='1rem'
         >
             <Box width={'40%'} display='flex' justifyContent={'center'} alignItems='center' textAlign={'center'} >
-                <Text fontSize={'2xl'} pl='4rem' fontFamily='cursive' >DEEPANSHU SINGH</Text>
+                <Text fontSize={'2xl'} pl='4rem' fontFamily='cursive' >{userLoading?'Loading...':user.username}</Text>
             </Box>
             <Box w={'70%'} display={'flex'} gap='1rem' alignItems='center' >
                 <Box padding={3} borderRadius='2xl' cursor={'pointer'} transition='0.3s' _hover={{ color: 'white', bgColor: '#9f56e9' }}>

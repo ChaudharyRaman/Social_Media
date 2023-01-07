@@ -105,7 +105,7 @@ const getAllUsers = asyncHandler(async(req,res)=>{
 
 const getUser = asyncHandler(async(req,res)=>{
     const {id} = req.params;
-    
+    console.log(id);
     try {
         const user = await User.findOne({_id:id});
         if(user){
