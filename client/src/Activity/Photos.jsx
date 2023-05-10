@@ -26,7 +26,7 @@ const Photos = () => {
           Authorization: `Bearer ${userToken}`
         }
       }
-      const { data } = await axios.get(`/api/allposts/${user?._id}`, config);
+      const { data } = await axios.get(`${process.env.REACT_APP_SERVER_BASE_ADDR}/api/allposts/${user?._id}`, config);
       // console.log(data);
       data.forEach((d) => {
         if (d.postImages.length !== 0) {

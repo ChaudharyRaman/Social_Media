@@ -4,7 +4,7 @@ import { Box, Image, ListItem, Text, Tooltip, UnorderedList } from '@chakra-ui/r
 import { Avatar, Button, FormControl, FormLabel, Input, Stack, Textarea, useToast } from '@chakra-ui/react'
 
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import profilePic from '../../Images/profilePic.png'
 import Post from '../../mischallaneous/Post';
 import { useState } from 'react';
@@ -46,7 +46,7 @@ const ProfileFeed = () => {
             }
         }
         try {
-            const { data } = await axios.get(`/api/user/${id}`, config);
+            const { data } = await axios.get(`${process.env.REACT_APP_SERVER_BASE_ADDR}/api/user/${id}`, config);
 
             if (!data) {
                 toast({
@@ -139,7 +139,7 @@ const ProfileFeed = () => {
                     Authorization: `Bearer ${userToken}`
                 }
             }
-            const { data } = await axios.get(`/api/allposts/${id}`, config);
+            const { data } = await axios.get(`${process.env.REACT_APP_SERVER_BASE_ADDR}/api/allposts/${id}`, config);
             setPosts(data);
             setPostLoading(false)
         } catch (error) {
@@ -175,7 +175,7 @@ const ProfileFeed = () => {
                     Authorization: `Bearer ${userToken}`
                 }
             }
-            const { data } = await axios.post('/api/posts', { title, description, postImageUrls }, config);
+            const { data } = await axios.post(`${process.env.REACT_APP_SERVER_BASE_ADDR}/api/posts`, { title, description, postImageUrls }, config);
             toast({
                 title: `Post Created`,
                 description: 'Post Created Successfully',

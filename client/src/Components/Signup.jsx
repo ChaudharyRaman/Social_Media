@@ -29,24 +29,40 @@ export default function Signup() {
       setIsLoading(false);
       return;
     }
-    const config = {
-      headers: {
-        "Content-type": "application/json",
-      },
+
+    try {
+
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      }
+      const { data } = await axios.post(`${process.env.REACT_APP_SERVER_BASE_ADDR}/api/user`, {
+        username,
+        email,
+        password,
+      }, config);
+
+      setEmail('');
+      setPassword('');
+      setUsername('');
+
+      localStorage.setItem('userToken', data.token);
+      setIsLoading(false);
+      navigate('/user/activity')
+    } catch (error) {
+      
+      toast({
+        title: 'Alert',
+        description: error.message,
+        status: 'error',
+        position: 'bottom-right',
+        variant: 'subtle',
+        duration: 3000,
+        isClosable: true,
+      });
+      setIsLoading(false);
     }
-    const { data } = await axios.post('/api/user', {
-      username,
-      email,
-      password,
-    }, config);
-
-    setEmail('');
-    setPassword('');
-    setUsername('');
-
-    localStorage.setItem('userToken', data.token);
-    setIsLoading(false);
-    navigate('/user/activity')
   }
 
   return (

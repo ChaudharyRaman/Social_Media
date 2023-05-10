@@ -12,6 +12,7 @@ import ProfileFeed from './Components/ProfileComponents/ProfileFeed';
 import ProfileInfo from './Components/ProfileComponents/ProfileInfo';
 
 function App() {
+  console.log(process.env.REACT_APP_SERVER_BASE_ADDR);
   return (
     <div className='App' >
       <Routes>

@@ -5,8 +5,11 @@ import { FaUserFriends } from 'react-icons/fa'
 import { GoFileMedia } from 'react-icons/go'
 import { MdDynamicFeed } from 'react-icons/md'
 import { TbFriends } from 'react-icons/tb'
+import { Link, useLocation } from 'react-router-dom'
 
-const ProfileNavbar = ({user,userLoading}) => {
+const ProfileNavbar = ({ user, userLoading }) => {
+
+    const location = useLocation();
 
     return (
         <Box
@@ -19,15 +22,17 @@ const ProfileNavbar = ({user,userLoading}) => {
             paddingBottom='1rem'
         >
             <Box width={'40%'} display='flex' justifyContent={'center'} alignItems='center' textAlign={'center'} >
-                <Text fontSize={'2xl'} pl='4rem' fontFamily='cursive' >{userLoading?'Loading...':user.username}</Text>
+                <Text fontSize={'2xl'} pl='4rem' fontFamily='cursive' >{userLoading ? 'Loading...' : user.username}</Text>
             </Box>
             <Box w={'70%'} display={'flex'} gap='1rem' alignItems='center' >
                 <Box padding={3} borderRadius='2xl' cursor={'pointer'} transition='0.3s' _hover={{ color: 'white', bgColor: '#9f56e9' }}>
                     <MdDynamicFeed size={'2rem'} />
                 </Box>
-                <Box padding={3} borderRadius='2xl' cursor={'pointer'} transition='0.3s' _hover={{ color: 'white', bgColor: '#9f56e9' }}>
-                    <CgProfile size={'2rem'} />
-                </Box>
+                <Link to={location.pathname + '/info'} >
+                    <Box padding={3} borderRadius='2xl' cursor={'pointer'} transition='0.3s' _hover={{ color: 'white', bgColor: '#9f56e9' }}>
+                        <CgProfile size={'2rem'} />
+                    </Box>
+                </Link>
                 <Box padding={3} borderRadius='2xl' cursor={'pointer'} transition='0.3s' _hover={{ color: 'white', bgColor: '#9f56e9' }}>
                     <FaUserFriends size={'2rem'} />
                 </Box>

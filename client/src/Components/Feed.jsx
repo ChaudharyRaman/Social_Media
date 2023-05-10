@@ -90,7 +90,7 @@ export default function Feed() {
           Authorization: `Bearer ${userToken}`
         }
       }
-      const { data } = await axios.get('/api/getFollowingsPost', config);
+      const { data } = await axios.get(`${process.env.REACT_APP_SERVER_BASE_ADDR}/api/getFollowingsPost`, config);
       setPosts(data);
       setPostLoading(false)
     } catch (error) {
@@ -126,7 +126,7 @@ export default function Feed() {
           Authorization: `Bearer ${userToken}`
         }
       }
-      const { data } = await axios.post('/api/posts', { title, description, postImageUrls }, config);
+      const { data } = await axios.post(`${process.env.REACT_APP_SERVER_BASE_ADDR}/api/posts`, { title, description, postImageUrls }, config);
       toast({
         title: `Post Created`,
         description: 'Post Created Successfully',

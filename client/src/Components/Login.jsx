@@ -34,7 +34,8 @@ export default function Login() {
                     "Content-type": "application/json",
                 },
             }
-            const { data } = await axios.post('/api/authenticate', {
+            console.log(email, password);
+            const { data } = await axios.post(`${process.env.REACT_APP_SERVER_BASE_ADDR}/api/authenticate`, {
                 email,
                 password
             }, config);

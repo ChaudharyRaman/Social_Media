@@ -30,7 +30,7 @@ const People = () => {
     try {
       setUserLoading(true);
 
-      const { data } = await axios.get('/api/allusers',config);
+      const { data } = await axios.get(`${process.env.REACT_APP_SERVER_BASE_ADDR}/api/allusers`,config);
 
       setUsers(data);
       setUserLoading(false)

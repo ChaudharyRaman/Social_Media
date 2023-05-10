@@ -34,10 +34,10 @@ export default function Post({ post, setFetchAgain }) {
         };
         try {
             if (likedByUser()) {
-                const { data } = await axios.post(`/api/posts/${post._id}/unlike`, {}, config);
+                const { data } = await axios.post(`${process.env.REACT_APP_SERVER_BASE_ADDR}/api/posts/${post._id}/unlike`, {}, config);
                 setUserLike(data);
             } else {
-                const { data } = await axios.post(`/api/posts/${post._id}/like`, {}, config);
+                const { data } = await axios.post(`${process.env.REACT_APP_SERVER_BASE_ADDR}/api/posts/${post._id}/like`, {}, config);
                 setUserLike(data);
             }
 

@@ -16,7 +16,7 @@ const ContextProvider = ({ children }) => {
     useEffect(() => {
 
         if (!userToken) {
-            navigate('/');
+            // navigate('/login');
             return;
         }
 
@@ -27,7 +27,7 @@ const ContextProvider = ({ children }) => {
                 }
             }
 
-            const { data } = await axios.get('/api/user', config);
+            const { data } = await axios.get(`${process.env.REACT_APP_SERVER_BASE_ADDR}/api/user`, config);
             setUser(data);
         }
         user();

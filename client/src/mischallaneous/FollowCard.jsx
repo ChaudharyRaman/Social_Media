@@ -28,13 +28,13 @@ const FollowCard = ({ people }) => {
         };
         try {
             if (hasFollowUser()) {
-                const {data} = await axios.post(`/api/users/${people.user._id}/unfollow`, {}, config);
+                const {data} = await axios.post(`${process.env.REACT_APP_SERVER_BASE_ADDR}/api/users/${people.user._id}/unfollow`, {}, config);
                 // console.log('unfollowed');
                 // console.log(data);
                 setPeopleFollowers(data.followers);
                 setFetchAgain(!fetchAgain);
             } else {
-                const { data } = await axios.post(`/api/users/${people.user._id}/follow`, {}, config);
+                const { data } = await axios.post(`${process.env.REACT_APP_SERVER_BASE_ADDR}/api/users/${people.user._id}/follow`, {}, config);
                 // console.log('followed');
                 // console.log(data);
                 setPeopleFollowers(data.followers);

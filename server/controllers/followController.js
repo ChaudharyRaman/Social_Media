@@ -27,7 +27,6 @@ const followUser = asyncHandler(async (req, res) => {
         .populate("followers","username email")
         .populate("following","username email")
         
-        console.log(followingUser);
         res.json(followUser)
     } catch (error) {
         throw new Error(error.message)

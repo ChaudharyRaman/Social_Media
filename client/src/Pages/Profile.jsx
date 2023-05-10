@@ -39,7 +39,7 @@ const Profile = () => {
             }
         }
         try {
-            const { data } =  await axios.get(`/api/user/${id}`, config);
+            const { data } =  await axios.get(`${process.env.REACT_APP_SERVER_BASE_ADDR}/api/user/${id}`, config);
             
             if (!data) {
                 toast({
