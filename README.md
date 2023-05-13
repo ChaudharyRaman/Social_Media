@@ -1,3 +1,5 @@
+## Demo
+Checkout MySocialMedia On -  https://playful-stardust-66d7c5.netlify.app
 
 # MySocialApp
 
@@ -71,8 +73,4 @@ Please note that this project is still in progress, and there are exciting featu
 
 These features will be available in **FUTURE**.
 
-
-## Demo
-
-Checkout MySocialMedia On -  https://playful-stardust-66d7c5.netlify.app
 
